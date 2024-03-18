@@ -61,7 +61,7 @@ function runAllEnabledRulesForBrowsers(feature,file,configuration) {
     'no-background-only-scenario',
     'no-duplicate-tags',
     'no-empty-file',
-    'no-example-in-scenarios',
+    'no-examples-in-scenarios',
     'no-files-without-scenarios',
     'no-homogenous-tags',
     'no-partially-commented-tag-lines',
