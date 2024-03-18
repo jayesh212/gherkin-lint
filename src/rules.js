@@ -89,11 +89,11 @@ function runAllEnabledRulesForBrowsers(feature,file,configuration) {
       const ruleConfig = Array.isArray(configuration[rule.name]) ? configuration[rule.name][1] : {};
       const error = rule.run(feature, file, ruleConfig);
       if (error) {
-        errors.forEach((error)=>{
+        errors.forEach((eachError)=>{
           if(ruleConfig.type == 'error') {
-            error.type = 'error';
+            eachError.type = 'error';
           } else {
-            error.type = 'warning';
+            eachError.type = 'warning';
           }
         });
         errors = errors.concat(error);
