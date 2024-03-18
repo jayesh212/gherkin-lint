@@ -53,7 +53,7 @@ function runAllEnabledRulesForBrowsers(feature,file,configuration) {
   let errors = [];
   var rules = {};
   const availableRules = [
-    'allowes-tags',
+    'allowed-tags',
     'indentation',
     'keywords-in-logical-order',
     'max-scenarios-per-file',
