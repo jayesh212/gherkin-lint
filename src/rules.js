@@ -53,7 +53,7 @@ function runAllEnabledRulesForBrowsers(feature,file,configuration,availableRules
   let errors = [];
   var rules = {};
   if(availableRules) {
-    availableRules.getAvailableRules().forEach((ruleFile)=> {
+    availableRules.forEach((ruleFile)=> {
       const rule = require('./rules/'+ruleFile+'.js');
       rules[rule.name] = rule;
     });
