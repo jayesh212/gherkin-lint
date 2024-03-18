@@ -96,6 +96,7 @@ function runAllEnabledRulesForBrowsers(feature,file,configuration) {
             error.type = 'warning';
           }
         });
+        errors = errors.concat(error);
       }
     }
   });
