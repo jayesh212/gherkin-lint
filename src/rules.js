@@ -49,12 +49,39 @@ function runAllEnabledRules(feature, file, configuration, additionalRulesDirs) {
   });
   return errors;
 }
-
+function runAllEnabledRulesForBrowser(feature,file,configuration,availableRules) {
+  let errors = [];
+  var rules = {};
+  if(availableRules) {
+    availableRules.getAvailableRules().forEach((ruleFile)=> {
+      const rule = require('./rules/'+ruleFile+'.js');
+      rules[rule.name] = rule;
+    });
+  }
+  Object.keys(rules).forEach((ruleName)=>{
+    let rule = rules[ruleName];
+    if(isRuleEnabled(configuration[rule.name])) {
+      const ruleConfig = Array.isArray(configuration[rule.name]) ? configuration[rule.name][1] : {};
+      const error = rule.run(feature, file, ruleConfig);
+      if (error) {
+        errors.forEach((error)=>{
+          if(ruleConfig.type == 'error') {
+            error.type = 'error';
+          } else {
+            error.type = 'warning';
+          }
+        });
+      }
+    }
+    return errors;
+  });
+}
 
 module.exports = {
   doesRuleExist: doesRuleExist,
   isRuleEnabled: isRuleEnabled,
   runAllEnabledRules: runAllEnabledRules,
   getRule: getRule,
-  getAllRules: getAllRules
+  getAllRules: getAllRules,
+  runAllEnabledRulesForBrowser: runAllEnabledRulesForBrowser
 };

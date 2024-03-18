@@ -3,6 +3,7 @@ const Gherkin = require('gherkin').default;
 const fs = require('fs');
 const rules = require('./rules.js');
 const logger = require('./logger.js');
+const {generateMessages} = require('@cucumber/gherkin');
 
 function readAndParseFile(filePath) {
   let feature ='';
@@ -147,8 +148,51 @@ function getFormattedFatalError(error) {
     rule   : rule,
     line   : errorLine};
 }
+function lintString(gherkinContent,configuration,availableRules) {
+  gherkinContent = `Feature: This is a
+  multiline feature name
 
+  Scenario: This is a
+    multiline scenario name
+
+    Given this step is not mutiline
+    And this step
+     is multiline
+    Then parsing fails
+  `;
+  //parse the string
+  const messages = generateMessages(gherkinContent,'test.feature','text/x.cucumber.gherkin+plain',{
+    includeGherkinDocument: true,
+    includeSource: false,
+    includePickles: false,
+    newId: ()=> Math.random.toString()
+  });
+  if(!messages[0].gherkinDocument) {
+    const errors = [];
+    messages.forEach(message=>{
+      errors.push({data:message.parseError.message});
+    });
+    return processFatalErrors(errors);
+  }
+  const gherkinDocument = messages[0].gherkinDocument;
+  if(gherkinDocument.feature.children) {
+    var ruleChildFound = false;
+    gherkinDocument.feature.children.forEach(child=> {
+      if(child.rule)ruleChildFound = true;
+    });
+    if(ruleChildFound) {
+      return [{
+        message: 'Rules are not yet supported',
+        rule: 'no-rules-support',
+        line: 0,
+        type: 'error'
+      }];
+    }
+  }
+  return rules.runAllEnabledRulesForBrowsers(gherkinDocument.feature,'test.feature',configuration,availableRules);
+}
 module.exports = {
   lint: lint,
-  readAndParseFile: readAndParseFile
+  readAndParseFile: readAndParseFile,
+  lintString: lintString
 };
