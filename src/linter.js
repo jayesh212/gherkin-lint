@@ -149,18 +149,6 @@ function getFormattedFatalError(error) {
     line   : errorLine};
 }
 function lintString(gherkinContent,configuration,availableRules) {
-  gherkinContent = `Feature: This is a
-  multiline feature name
-
-  Scenario: This is a
-    multiline scenario name
-
-    Given this step is not mutiline
-    And this step
-     is multiline
-    Then parsing fails
-  `;
-  //parse the string
   const messages = generateMessages(gherkinContent,'test.feature','text/x.cucumber.gherkin+plain',{
     includeGherkinDocument: true,
     includeSource: false,
