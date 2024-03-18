@@ -106,7 +106,8 @@ function getFormatedTaggedBackgroundError(errors) {
     errorMsgs.push({
       message: 'Tags on Backgrounds are dissallowed',
       rule: 'no-tags-on-backgrounds',
-      line: errors[0].data.match(/\((\d+):.*/)[1]
+      line: errors[0].data.match(/\((\d+):.*/)[1],
+      type: 'error'
     });
 
     index = 2;
@@ -144,18 +145,20 @@ function getFormattedFatalError(error) {
     errorMsg = error.data;
     rule = 'unexpected-error';
   }
-  return {message: errorMsg,
+  return {
+    message: errorMsg,
     rule   : rule,
-    line   : errorLine};
+    line   : errorLine,
+    type   : 'error'
+  };
 }
 function lintString(gherkinContent,configuration) {
   const messages = generateMessages(gherkinContent,'test.feature','text/x.cucumber.gherkin+plain',{
     includeGherkinDocument: true,
     includeSource: false,
-    includePickles: false,
     newId: ()=> Math.random.toString()
   });
-  if(!messages[0].gherkinDocument) {
+  if(!messages[0].gherkinDocument || messages[0].gherkinDocument==undefined) {
     const errors = [];
     messages.forEach(message=>{
       errors.push({data:message.parseError.message});
