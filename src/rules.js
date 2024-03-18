@@ -49,7 +49,7 @@ function runAllEnabledRules(feature, file, configuration, additionalRulesDirs) {
   });
   return errors;
 }
-function runAllEnabledRulesForBrowser(feature,file,configuration,availableRules) {
+function runAllEnabledRulesForBrowsers(feature,file,configuration,availableRules) {
   let errors = [];
   var rules = {};
   if(availableRules) {
@@ -83,5 +83,5 @@ module.exports = {
   runAllEnabledRules: runAllEnabledRules,
   getRule: getRule,
   getAllRules: getAllRules,
-  runAllEnabledRulesForBrowser: runAllEnabledRulesForBrowser
+  runAllEnabledRulesForBrowsers: runAllEnabledRulesForBrowsers
 };
