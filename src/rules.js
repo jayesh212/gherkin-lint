@@ -49,10 +49,35 @@ function runAllEnabledRules(feature, file, configuration, additionalRulesDirs) {
   });
   return errors;
 }
-function runAllEnabledRulesForBrowsers(feature,file,configuration,availableRules) {
+function runAllEnabledRulesForBrowsers(feature,file,configuration) {
   let errors = [];
   var rules = {};
-  if(availableRules) {
+  const availableRules = [
+    'allowes-tags',
+    'indentation',
+    'keywords-in-logical-order',
+    'max-scenarios-per-file',
+    'name-length',
+    'no-background-only-scenario',
+    'no-duplicate-tags',
+    'no-empty-file',
+    'no-example-in-scenarios',
+    'no-files-without-scenarios',
+    'no-homogenous-tags',
+    'no-partially-commented-tag-lines',
+    'no-restricted-patterns',
+    'no-restricted-tags',
+    'no-scenario-outlines-without-examples',
+    'no-unnamed-scenarios',
+    'no-unnamed-features',
+    'no-unnamed-scenarios',
+    'no-unused-variables',
+    'one-space-between-tags',
+    'required-tags',
+    'scenario-size',
+    'use-and'
+  ];
+  if(availableRules!= undefined) {
     availableRules.forEach((ruleFile)=> {
       const rule = require('./rules/'+ruleFile+'.js');
       rules[rule.name] = rule;
@@ -73,8 +98,8 @@ function runAllEnabledRulesForBrowsers(feature,file,configuration,availableRules
         });
       }
     }
-    return errors;
   });
+  return errors;
 }
 
 module.exports = {

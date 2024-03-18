@@ -148,7 +148,7 @@ function getFormattedFatalError(error) {
     rule   : rule,
     line   : errorLine};
 }
-function lintString(gherkinContent,configuration,availableRules) {
+function lintString(gherkinContent,configuration) {
   const messages = generateMessages(gherkinContent,'test.feature','text/x.cucumber.gherkin+plain',{
     includeGherkinDocument: true,
     includeSource: false,
@@ -177,7 +177,7 @@ function lintString(gherkinContent,configuration,availableRules) {
       }];
     }
   }
-  return rules.runAllEnabledRulesForBrowsers(gherkinDocument.feature,'test.feature',configuration,availableRules);
+  return rules.runAllEnabledRulesForBrowsers(gherkinDocument.feature,'test.feature',configuration);
 }
 module.exports = {
   lint: lint,
